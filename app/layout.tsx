@@ -26,6 +26,8 @@ const monoFont = IBM_Plex_Mono({
   display: "swap",
 });
 
+const shareImageUrl = new URL("/share-preview-v2.jpg", siteUrl);
+
 export const metadata: Metadata = {
   metadataBase: siteUrl,
   title: {
@@ -59,11 +61,12 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: "/share-preview.png",
+        url: shareImageUrl,
+        secureUrl: shareImageUrl,
         width: 1200,
         height: 630,
         alt: "Anderson Junior, cantor sertanejo de Passos, Minas Gerais",
-        type: "image/png",
+        type: "image/jpeg",
       },
     ],
   },
@@ -71,7 +74,16 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
-    images: ["/share-preview.png"],
+    images: [
+      {
+        url: shareImageUrl,
+        secureUrl: shareImageUrl,
+        width: 1200,
+        height: 630,
+        alt: "Anderson Junior, cantor sertanejo de Passos, Minas Gerais",
+        type: "image/jpeg",
+      },
+    ],
   },
   robots: {
     index: true,

@@ -119,7 +119,7 @@ Prioridades:
 - [ ] `P0` Verificar carregamento progressivo de mídia.
 - [ ] `P0` Verificar formulários e links de contato.
 - [ ] `P1` Avaliar métricas de desempenho.
-- [x] `P1` Validar metadados e compartilhamento social com miniatura PNG de 1200 x 630 para WhatsApp e outras plataformas.
+- [x] `P1` Validar metadados e compartilhamento social com miniatura JPEG leve de 1200 x 630 para WhatsApp e outras plataformas.
 - [ ] `P1` Realizar revisão final de texto e imagens.
 
 ## Critério para desbloquear a implementação
