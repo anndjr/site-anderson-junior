@@ -167,6 +167,7 @@ Mover as tarefas técnicas para `não iniciada` somente quando:
 ## Fechamento da versão para lançamento
 
 - [x] `P0` Preparar o projeto para versionamento Git, com arquivos locais ignorados e instruções de desenvolvimento.
+- [x] `P0` Criar o repositório privado `anndjr/site-anderson-junior` no GitHub e publicar a branch `main`.
 - [x] `P0` Criar metadados canônicos, Open Graph e Twitter Card.
 - [x] `P0` Criar `robots.txt`, `sitemap.xml` e dados estruturados `Person`.
 - [x] `P0` Criar imagem social horizontal com identidade e fotografia oficiais.
