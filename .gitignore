@@ -1,0 +1,14 @@
+node_modules/
+.pnpm-store/
+.next/
+out/
+.vercel/
+.codex-remote-attachments/
+tmp/
+output/
+*.tsbuildinfo
+*.log
+.env*
+!.env.example
+.DS_Store
+Thumbs.db
