@@ -308,7 +308,7 @@ Consulte disponibilidade e informações para shows diretamente pelo WhatsApp.
 - Destino aprovado para a primeira publicação: plano gratuito da Vercel.
 - O endereço público será definido por `NEXT_PUBLIC_SITE_URL`; o valor de produção deve incluir `https://` e não terminar com barra.
 - A versão inclui metadados canônicos, Open Graph, Twitter Card, dados estruturados `Person`, `robots.txt` e `sitemap.xml`.
-- Vercel Web Analytics e Speed Insights estão integrados no código; ambos precisam ser habilitados no painel do projeto após a primeira publicação.
+- Vercel Web Analytics e Speed Insights estão integrados no código e foram habilitados no painel do projeto em 2026-08-14.
 - O press kit oficial em PDF faz parte do material profissional e fica disponível para download na seção de contato.
 - A publicação só será considerada concluída depois de conectar o domínio, repetir a auditoria no endereço real e validar o compartilhamento social.
 
@@ -316,7 +316,7 @@ Consulte disponibilidade e informações para shows diretamente pelo WhatsApp.
 
 1. Criar ou conectar o repositório Git à Vercel.
 2. Configurar `NEXT_PUBLIC_SITE_URL` com o domínio definitivo.
-3. Publicar e habilitar Web Analytics e Speed Insights no painel da Vercel.
+3. Publicar e habilitar Web Analytics e Speed Insights no painel da Vercel. Concluído em 2026-08-14.
 4. Conectar o domínio e revisar DNS, HTTPS e redirecionamento para a versão canônica.
 5. Validar WhatsApp, Instagram, TikTok, download do press kit, `robots.txt`, `sitemap.xml` e prévia de compartilhamento.
 6. Fazer a verificação final em celular real e desktop antes de divulgar.
