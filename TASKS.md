@@ -176,6 +176,6 @@ Mover as tarefas técnicas para `não iniciada` somente quando:
 - [x] `P1` Auditar títulos, textos alternativos, controles identificados e ausência de overflow em desktop e mobile.
 - [x] `P1` Confirmar que links externos e download apontam para os destinos esperados.
 - [ ] `P0` Definir o domínio definitivo e configurar `NEXT_PUBLIC_SITE_URL` na Vercel.
-- [ ] `P0` Publicar na Vercel e habilitar Analytics e Speed Insights no painel.
+- [~] `P0` Publicar na Vercel e habilitar Analytics e Speed Insights no painel; primeira instalação corrigida e novo deploy automático em andamento.
 - [ ] `P0` Repetir a auditoria no endereço de produção e validar a prévia social nas plataformas.
 - [ ] `P1` Verificar o site em ao menos um iPhone/Safari e um Android/Chrome reais.
