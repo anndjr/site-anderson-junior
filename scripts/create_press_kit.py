@@ -14,25 +14,28 @@ from reportlab.platypus import Paragraph
 ROOT = Path(__file__).resolve().parents[1]
 MEDIA = ROOT / "public" / "media"
 OUTPUT = ROOT / "output" / "pdf" / "press-kit-anderson-junior.pdf"
+ICONS = MEDIA / "press-kit-icons"
 
 PAGE_W, PAGE_H = A4
-BLACK = colors.HexColor("#0B0B0B")
-COFFEE = colors.HexColor("#1D1714")
-GRAPHITE = colors.HexColor("#272522")
-PAPER = colors.HexColor("#EEE7DC")
-IVORY = colors.HexColor("#FFF9EF")
-MIST = colors.HexColor("#BDB4A8")
-INK = colors.HexColor("#181512")
-ORANGE = colors.HexColor("#FF6A00")
-COPPER = colors.HexColor("#B65E32")
+BLACK = colors.HexColor("#0C0B0A")
+COFFEE = colors.HexColor("#1B1613")
+GRAPHITE = colors.HexColor("#242321")
+PAPER = colors.HexColor("#EFE8DE")
+IVORY = colors.HexColor("#FFF8ED")
+MIST = colors.HexColor("#C6BAAD")
+INK = colors.HexColor("#15120F")
+ORANGE = colors.HexColor("#F36B21")
+COPPER = colors.HexColor("#B85832")
+SAND = colors.HexColor("#D8C6B4")
 
 
 def register_fonts():
     font_dir = Path("C:/Windows/Fonts")
     fonts = {
-        "Display": font_dir / "ariblk.ttf",
-        "Sans": font_dir / "arial.ttf",
-        "SansBold": font_dir / "arialbd.ttf",
+        "Display": font_dir / "seguibl.ttf",
+        "Sans": font_dir / "segoeui.ttf",
+        "SansBold": font_dir / "seguisb.ttf",
+        "Condensed": font_dir / "bahnschrift.ttf",
         "Serif": font_dir / "georgia.ttf",
         "SerifBold": font_dir / "georgiab.ttf",
         "Mono": font_dir / "cour.ttf",
@@ -77,8 +80,35 @@ def paragraph(c, text, x, y_top, width, font_size=10, leading=15, color=INK, fon
 
 def label(c, text, x, y, color=ORANGE):
     c.setFillColor(color)
-    c.setFont("Mono", 7.5)
+    c.setFont("SansBold", 7.4)
     c.drawString(x, y, text.upper())
+
+
+def icon_badge(c, icon_name, x, y, size=28, background=IVORY, icon_size=13):
+    c.saveState()
+    c.setFillColor(background)
+    c.circle(x + size / 2, y + size / 2, size / 2, fill=1, stroke=0)
+    padding = (size - icon_size) / 2
+    c.drawImage(
+        str(ICONS / f"{icon_name}.png"),
+        x + padding,
+        y + padding,
+        width=icon_size,
+        height=icon_size,
+        preserveAspectRatio=True,
+        mask="auto",
+    )
+    c.restoreState()
+
+
+def contact_item(c, icon_name, label_text, value, x, y, width, href):
+    icon_badge(c, icon_name, x, y - 4, 30, IVORY, 14)
+    c.setFillColor(BLACK)
+    c.setFont("SansBold", 7)
+    c.drawString(x + 42, y + 16, label_text.upper())
+    c.setFont("SansBold", 10)
+    c.drawString(x + 42, y, value)
+    c.linkURL(href, (x, y - 6, x + width, y + 28), relative=0)
 
 
 def page_mark(c, number, light=True):
@@ -131,10 +161,11 @@ def draw_cover(c):
     label(c, "Press kit oficial / 2026", 44, PAGE_H - 52, IVORY)
 
     c.setFillColor(ORANGE)
-    c.roundRect(44, PAGE_H - 112, 96, 28, 0, fill=1, stroke=0)
+    c.roundRect(44, PAGE_H - 114, 148, 32, 0, fill=1, stroke=0)
+    icon_badge(c, "microphone", 50, PAGE_H - 110, 24, IVORY, 11)
     c.setFillColor(BLACK)
-    c.setFont("SansBold", 10)
-    c.drawCentredString(92, PAGE_H - 102, "MÍDIA KIT")
+    c.setFont("SansBold", 9)
+    c.drawString(83, PAGE_H - 102, "MÍDIA KIT  /  2026")
 
     c.drawImage(
         str(MEDIA / "anderson-junior-logo.png"),
@@ -274,6 +305,9 @@ def draw_show(c):
     c.setFillColor(colors.Color(0.03, 0.02, 0.015, alpha=0.22))
     c.rect(41, image_y, PAGE_W * 0.91, image_h, fill=1, stroke=0)
     orange_corners(c, 41, image_y, PAGE_W * 0.91, image_h, 20)
+    icon_badge(c, "microphone", 54, image_y + 14, 30, ORANGE, 14)
+    icon_badge(c, "guitar", PAGE_W * 0.34 + 14, image_y + 14, 30, IVORY, 15)
+    icon_badge(c, "guitar", PAGE_W * 0.70 + 14, image_y + 14, 30, SAND, 15)
 
     c.setFillColor(IVORY)
     c.setFont("Display", 34)
@@ -307,18 +341,19 @@ def draw_show(c):
     box_x, box_y, box_w, box_h = PAGE_W * 0.65, 78, PAGE_W * 0.30, 174
     c.setFillColor(ORANGE)
     c.rect(box_x, box_y, box_w, box_h, fill=1, stroke=0)
+    icon_badge(c, "guitar", box_x + 18, box_y + box_h - 48, 28, IVORY, 14)
     c.setFillColor(BLACK)
     c.setFont("Display", 20)
-    c.drawString(box_x + 18, box_y + box_h - 38, "BANDA")
-    c.drawString(box_x + 18, box_y + box_h - 64, "COMPLETA")
+    c.drawString(box_x + 56, box_y + box_h - 38, "BANDA")
+    c.drawString(box_x + 18, box_y + box_h - 70, "COMPLETA")
     c.setStrokeColor(BLACK)
     c.setLineWidth(2)
-    c.line(box_x + 18, box_y + box_h - 77, box_x + 62, box_y + box_h - 77)
+    c.line(box_x + 18, box_y + box_h - 83, box_x + 62, box_y + box_h - 83)
     paragraph(
         c,
         "Formação de maior escala para prefeituras, exposições e grandes eventos. Disponibilidade, estrutura e formato são tratados diretamente no contato.",
         box_x + 18,
-        box_y + box_h - 96,
+        box_y + box_h - 101,
         box_w - 36,
         8.4,
         11.8,
@@ -372,25 +407,19 @@ def draw_trajectory(c):
     )
 
     c.setFillColor(ORANGE)
-    c.rect(0, 0, PAGE_W, 150, fill=1, stroke=0)
+    c.rect(0, 0, PAGE_W, 185, fill=1, stroke=0)
     c.setFillColor(BLACK)
-    c.setFont("Display", 22)
-    c.drawString(42, 108, "CONTATO PARA SHOWS")
-    c.setFont("SansBold", 13)
-    c.drawString(42, 80, "WhatsApp  +55 35 98409-4626")
-    c.setFont("Sans", 9)
-    c.drawString(42, 58, "Instagram  @andersonjrcantor     TikTok  @andersonjrcantor")
-
-    site_x = PAGE_W - 218
-    c.setFillColor(BLACK)
-    c.roundRect(site_x, 52, 176, 42, 0, fill=1, stroke=0)
-    c.setFillColor(IVORY)
-    c.setFont("SansBold", 8.5)
-    c.drawCentredString(site_x + 88, 72, "ANDERSONJRCANTOR.COM.BR")
-    c.linkURL("https://www.andersonjrcantor.com.br", (site_x, 52, site_x + 176, 94), relative=0)
-    c.linkURL("https://wa.me/5535984094626", (42, 70, 270, 98), relative=0)
-    c.linkURL("https://www.instagram.com/andersonjrcantor/", (42, 48, 194, 68), relative=0)
-    c.linkURL("https://www.tiktok.com/@andersonjrcantor", (200, 48, 342, 68), relative=0)
+    c.setFont("Display", 19)
+    c.drawString(42, 148, "CONTATO PARA SHOWS")
+    c.setFont("Serif", 9)
+    c.drawString(302, 151, "Clique nos canais para acessar")
+    c.setStrokeColor(colors.Color(0.05, 0.04, 0.03, alpha=0.25))
+    c.setLineWidth(0.8)
+    c.line(42, 128, PAGE_W - 42, 128)
+    contact_item(c, "whatsapp", "WhatsApp", "+55 35 98409-4626", 42, 90, 230, "https://wa.me/5535984094626")
+    contact_item(c, "globe", "Site oficial", "andersonjrcantor.com.br", 302, 90, 250, "https://www.andersonjrcantor.com.br")
+    contact_item(c, "instagram", "Instagram", "@andersonjrcantor", 42, 42, 230, "https://www.instagram.com/andersonjrcantor/")
+    contact_item(c, "tiktok", "TikTok", "@andersonjrcantor", 302, 42, 250, "https://www.tiktok.com/@andersonjrcantor")
     page_mark(c, 4, light=False)
     c.showPage()
 
