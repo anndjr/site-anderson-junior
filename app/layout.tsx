@@ -26,7 +26,7 @@ const monoFont = IBM_Plex_Mono({
   display: "swap",
 });
 
-const shareImageUrl = new URL("/share-preview-v2.jpg", siteUrl);
+const shareImageUrl = new URL("/share-preview-v3.jpg", siteUrl);
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,

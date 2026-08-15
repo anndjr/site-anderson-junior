@@ -332,4 +332,4 @@ Em telas lógicas acima de `2200px`, incluindo níveis muito reduzidos de zoom d
 
 O press kit reutiliza a mesma hierarquia visual do site: preto e grafite como base, papel quente para leitura longa, cobre e laranja da marca como acentos, títulos editoriais e textos objetivos. Ele não replica a página; reorganiza apresentação, trajetória, formatos e contato para leitura profissional em quatro páginas A4.
 
-A imagem de compartilhamento usa a logo oficial, o retrato principal e a assinatura `Cantor sertanejo · Passos, Minas Gerais`. O recorte permanece simples e legível em miniaturas, sem acrescentar slogans ou informações não confirmadas.
+A imagem de compartilhamento usa a logo oficial, a foto de palco aprovada pelo artista e a assinatura `Cantor sertanejo · Passos, Minas Gerais`. A composição horizontal preserva rosto, chapéu, mão erguida e logo dentro da área segura, permanecendo legível em miniaturas sem acrescentar slogans ou informações não confirmadas.
