@@ -25,7 +25,7 @@ O objetivo não é reproduzir o `Sonorico` pixel a pixel. A nova versão deve pr
 - Exportação estática na primeira versão, sem banco de dados, Supabase, CMS, Server Actions ou backend.
 - Imagens servidas localmente e otimizadas durante a construção; áudio e vídeo ficam adiados.
 - Repositório simples, sem monorepo.
-- A hospedagem será decidida antes da publicação; Vercel gratuita permanece como preferência, não como decisão final.
+- Hospedagem confirmada na Vercel gratuita, com domínio oficial `https://www.andersonjrcantor.com.br` registrado no Registro.br.
 
 ## 3. Ambição
 

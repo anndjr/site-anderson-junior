@@ -12,7 +12,7 @@ O projeto será uma nova experiência digital para o artista Anderson Junior. O 
 - Implementação: autorizada explicitamente pelo responsável em 2026-08-14.
 - Stack aprovada: Next.js com App Router e TypeScript, Tailwind CSS com CSS autoral, Motion e Font Awesome Free.
 - Arquitetura inicial: site estático, sem banco de dados, CMS, áudio ou vídeo na primeira versão.
-- Hospedagem: decisão final adiada; Vercel gratuita é a preferência declarada e deve ser revalidada antes da publicação.
+- Hospedagem: Vercel gratuita, publicada no domínio oficial `https://www.andersonjrcantor.com.br`.
 - Código de aplicação: pode ser criado conforme `PLANNING.md`, `DESIGN_SYSTEM.md` e `TASKS.md`.
 - Dependências: podem ser instaladas somente quando necessárias à stack aprovada.
 - Base44: a exportação de código continua indisponível no plano atual; 16 arquivos de imagem originais foram recuperados da prévia pública e catalogados em `pictures/ASSET_INVENTORY.md`.

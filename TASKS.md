@@ -76,10 +76,10 @@ Prioridades:
 ## Arquitetura técnica
 
 - [x] `P0` Escolher Next.js App Router, TypeScript, Tailwind CSS, CSS autoral, Motion e Font Awesome Free.
-- [?] `P0` Confirmar a hospedagem antes da publicação; Vercel gratuita é a preferência atual.
+- [x] `P0` Confirmar Vercel gratuita como hospedagem e publicar no domínio oficial `www.andersonjrcantor.com.br`.
 - [x] `P0` Decidir que a primeira versão não terá CMS, banco de dados ou backend.
 - [x] `P0` Definir imagens locais otimizadas e adiar áudio e vídeo.
-- [~] `P1` Definir SEO, metadados sociais e analytics; SEO básico implementado, domínio, imagem social e analytics pendentes.
+- [x] `P1` Definir SEO, metadados sociais, domínio oficial e analytics na Vercel.
 - [x] `P1` Definir orçamento de performance.
 - [x] `P1` Definir matriz de navegadores e dispositivos.
 
@@ -108,7 +108,7 @@ Prioridades:
 - [x] `P1` Corrigir a camada de navegação mobile após validação em viewport compacto.
 - [x] `P1` Suavizar a borda direita da fotografia de abertura para fundi-la ao fundo sem revelar o limite do arquivo.
 - [x] `P1` Preservar a escala visual da interface em telas lógicas muito largas e níveis reduzidos de zoom do navegador.
-- [~] `P1` Implementar metadados e compartilhamento; configuração final depende de domínio e imagem social.
+- [x] `P1` Implementar metadados e compartilhamento no domínio oficial com imagem social validada.
 
 ## Validação futura
 
@@ -176,7 +176,7 @@ Mover as tarefas técnicas para `não iniciada` somente quando:
 - [x] `P1` Criar press kit profissional em PDF e disponibilizar seu download.
 - [x] `P1` Auditar títulos, textos alternativos, controles identificados e ausência de overflow em desktop e mobile.
 - [x] `P1` Confirmar que links externos e download apontam para os destinos esperados.
-- [ ] `P0` Definir o domínio definitivo e configurar `NEXT_PUBLIC_SITE_URL` na Vercel.
-- [x] `P0` Publicar na Vercel e habilitar Analytics e Speed Insights no painel; site publicado em `site-anderson-junior.vercel.app` com métricas ativas.
+- [x] `P0` Definir `www.andersonjrcantor.com.br` como domínio definitivo e configurar `NEXT_PUBLIC_SITE_URL` na Vercel.
+- [x] `P0` Publicar na Vercel e habilitar Analytics e Speed Insights no painel; site publicado em `www.andersonjrcantor.com.br` com métricas ativas.
 - [ ] `P0` Repetir a auditoria no endereço de produção e validar a prévia social nas plataformas.
 - [ ] `P1` Verificar o site em ao menos um iPhone/Safari e um Android/Chrome reais.
