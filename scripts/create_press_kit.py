@@ -27,6 +27,8 @@ INK = colors.HexColor("#15120F")
 ORANGE = colors.HexColor("#F36B21")
 COPPER = colors.HexColor("#B85832")
 SAND = colors.HexColor("#D8C6B4")
+WHATSAPP = colors.HexColor("#25D366")
+INSTAGRAM = colors.HexColor("#D93175")
 
 
 def register_fonts():
@@ -84,13 +86,13 @@ def label(c, text, x, y, color=ORANGE):
     c.drawString(x, y, text.upper())
 
 
-def icon_badge(c, icon_name, x, y, size=28, background=IVORY, icon_size=13):
+def icon_badge(c, icon_name, x, y, size=28, background=IVORY, icon_size=13, light_icon=False):
     c.saveState()
     c.setFillColor(background)
     c.circle(x + size / 2, y + size / 2, size / 2, fill=1, stroke=0)
     padding = (size - icon_size) / 2
     c.drawImage(
-        str(ICONS / f"{icon_name}.png"),
+        str(ICONS / f"{icon_name}{'-white' if light_icon else ''}.png"),
         x + padding,
         y + padding,
         width=icon_size,
@@ -101,14 +103,14 @@ def icon_badge(c, icon_name, x, y, size=28, background=IVORY, icon_size=13):
     c.restoreState()
 
 
-def contact_item(c, icon_name, label_text, value, x, y, width, href):
-    icon_badge(c, icon_name, x, y - 4, 30, IVORY, 14)
+def contact_item(c, icon_name, label_text, value, x, y, width, href, background=IVORY, light_icon=False):
+    icon_badge(c, icon_name, x, y - 7, 36, background, 18, light_icon)
     c.setFillColor(BLACK)
-    c.setFont("SansBold", 7)
-    c.drawString(x + 42, y + 16, label_text.upper())
-    c.setFont("SansBold", 10)
-    c.drawString(x + 42, y, value)
-    c.linkURL(href, (x, y - 6, x + width, y + 28), relative=0)
+    c.setFont("SansBold", 7.4)
+    c.drawString(x + 49, y + 17, label_text.upper())
+    c.setFont("SansBold", 10.4)
+    c.drawString(x + 49, y - 1, value)
+    c.linkURL(href, (x, y - 9, x + width, y + 31), relative=0)
 
 
 def page_mark(c, number, light=True):
@@ -408,18 +410,17 @@ def draw_trajectory(c):
 
     c.setFillColor(ORANGE)
     c.rect(0, 0, PAGE_W, 185, fill=1, stroke=0)
+    icon_badge(c, "whatsapp", 42, 134, 38, BLACK, 19, True)
     c.setFillColor(BLACK)
     c.setFont("Display", 19)
-    c.drawString(42, 148, "CONTATO PARA SHOWS")
-    c.setFont("Serif", 9)
-    c.drawString(302, 151, "Clique nos canais para acessar")
+    c.drawString(94, 148, "CONTATO PARA SHOWS")
     c.setStrokeColor(colors.Color(0.05, 0.04, 0.03, alpha=0.25))
     c.setLineWidth(0.8)
     c.line(42, 128, PAGE_W - 42, 128)
-    contact_item(c, "whatsapp", "WhatsApp", "+55 35 98409-4626", 42, 90, 230, "https://wa.me/5535984094626")
-    contact_item(c, "globe", "Site oficial", "andersonjrcantor.com.br", 302, 90, 250, "https://www.andersonjrcantor.com.br")
-    contact_item(c, "instagram", "Instagram", "@andersonjrcantor", 42, 42, 230, "https://www.instagram.com/andersonjrcantor/")
-    contact_item(c, "tiktok", "TikTok", "@andersonjrcantor", 302, 42, 250, "https://www.tiktok.com/@andersonjrcantor")
+    contact_item(c, "whatsapp", "WhatsApp", "+55 35 98409-4626", 42, 90, 230, "https://wa.me/5535984094626", WHATSAPP, True)
+    contact_item(c, "globe", "Site oficial", "andersonjrcantor.com.br", 302, 90, 250, "https://www.andersonjrcantor.com.br", BLACK, True)
+    contact_item(c, "instagram", "Instagram", "@andersonjrcantor", 42, 40, 230, "https://www.instagram.com/andersonjrcantor/", INSTAGRAM, True)
+    contact_item(c, "tiktok", "TikTok", "@andersonjrcantor", 302, 40, 250, "https://www.tiktok.com/@andersonjrcantor", BLACK, True)
     page_mark(c, 4, light=False)
     c.showPage()
 

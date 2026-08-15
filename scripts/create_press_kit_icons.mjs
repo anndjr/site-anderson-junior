@@ -23,6 +23,8 @@ await mkdir(outputDir, { recursive: true });
 
 for (const [name, definition] of Object.entries(icons)) {
   const [width, height, , , pathData] = definition.icon;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"><path fill="#11100F" d="${pathData}"/></svg>`;
-  await sharp(Buffer.from(svg)).resize(256, 256, { fit: "contain" }).png().toFile(path.join(outputDir, `${name}.png`));
+  for (const [suffix, fill] of [["", "#11100F"], ["-white", "#FFF8ED"]]) {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"><path fill="${fill}" d="${pathData}"/></svg>`;
+    await sharp(Buffer.from(svg)).resize(256, 256, { fit: "contain" }).png().toFile(path.join(outputDir, `${name}${suffix}.png`));
+  }
 }
