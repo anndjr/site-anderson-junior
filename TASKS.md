@@ -178,5 +178,5 @@ Mover as tarefas técnicas para `não iniciada` somente quando:
 - [x] `P1` Confirmar que links externos e download apontam para os destinos esperados.
 - [x] `P0` Definir `www.andersonjrcantor.com.br` como domínio definitivo e configurar `NEXT_PUBLIC_SITE_URL` na Vercel.
 - [x] `P0` Publicar na Vercel e habilitar Analytics e Speed Insights no painel; site publicado em `www.andersonjrcantor.com.br` com métricas ativas.
-- [ ] `P0` Repetir a auditoria no endereço de produção e validar a prévia social nas plataformas.
+- [x] `P0` Repetir a auditoria no endereço de produção e validar domínio canônico, sitemap e metadados da prévia social.
 - [ ] `P1` Verificar o site em ao menos um iPhone/Safari e um Android/Chrome reais.
