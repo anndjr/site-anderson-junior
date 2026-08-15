@@ -268,9 +268,9 @@ def draw_show(c):
 
     image_y = PAGE_H * 0.41
     image_h = PAGE_H * 0.43
-    crop_image(c, MEDIA / "palco-microfone.jpg", 41, image_y, PAGE_W * 0.28, image_h, 0.48, 0.45)
-    crop_image(c, MEDIA / "viola-caipira.jpg", PAGE_W * 0.34, image_y, PAGE_W * 0.34, image_h, 0.5, 0.42)
-    crop_image(c, MEDIA / "palco-voz.jpg", PAGE_W * 0.70, image_y, PAGE_W * 0.25, image_h, 0.5, 0.42)
+    crop_image(c, MEDIA / "palco-voz.jpg", 41, image_y, PAGE_W * 0.28, image_h, 0.5, 0.42)
+    crop_image(c, MEDIA / "palco-microfone.jpg", PAGE_W * 0.34, image_y, PAGE_W * 0.34, image_h, 0.48, 0.45)
+    crop_image(c, MEDIA / "viola-caipira.jpg", PAGE_W * 0.70, image_y, PAGE_W * 0.25, image_h, 0.5, 0.42)
     c.setFillColor(colors.Color(0.03, 0.02, 0.015, alpha=0.22))
     c.rect(41, image_y, PAGE_W * 0.91, image_h, fill=1, stroke=0)
     orange_corners(c, 41, image_y, PAGE_W * 0.91, image_h, 20)
