@@ -153,12 +153,11 @@ def orange_corners(c, x, y, width, height, length=18):
 
 def draw_cover(c):
     crop_image(c, MEDIA / "palco-chapeu.jpg", 0, 0, PAGE_W, PAGE_H, 0.53, 0.42)
-    c.setFillColor(colors.Color(0.02, 0.015, 0.012, alpha=0.48))
+    c.setFillColor(colors.Color(0.02, 0.015, 0.012, alpha=0.32))
     c.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
-    c.setFillColor(colors.Color(0.03, 0.025, 0.02, alpha=0.76))
+    c.setFillColor(colors.Color(0.03, 0.025, 0.02, alpha=0.56))
     c.rect(0, 0, PAGE_W * 0.48, PAGE_H, fill=1, stroke=0)
 
-    outline_word(c, "AO VIVO", -10, PAGE_H - 205, 84, IVORY, 0.16)
     vertical_brand_line(c)
     label(c, "Press kit oficial / 2026", 44, PAGE_H - 52, IVORY)
 
@@ -269,8 +268,19 @@ def draw_artist(c):
     )
 
     transition_y, transition_h = 40, 205
-    crop_image(c, MEDIA / "palco-luzes.jpg", 40, transition_y, PAGE_W - 80, transition_h, 0.5, 0.44)
-    c.setFillColor(colors.Color(0.025, 0.02, 0.015, alpha=0.62))
+    c.setFillColor(COFFEE)
+    c.rect(40, transition_y, PAGE_W - 80, transition_h, fill=1, stroke=0)
+    crop_image(
+        c,
+        MEDIA / "anderson-chapeu.png",
+        PAGE_W * 0.57,
+        transition_y,
+        PAGE_W * 0.38,
+        transition_h,
+        0.5,
+        0.22,
+    )
+    c.setFillColor(colors.Color(0.025, 0.02, 0.015, alpha=0.16))
     c.rect(40, transition_y, PAGE_W - 80, transition_h, fill=1, stroke=0)
     c.setFillColor(ORANGE)
     c.rect(40, transition_y, 8, transition_h, fill=1, stroke=0)
@@ -283,7 +293,7 @@ def draw_artist(c):
         "Voz, violão e viola caipira em uma apresentação construída para criar proximidade com o público.",
         68,
         transition_y + transition_h - 94,
-        PAGE_W * 0.48,
+        PAGE_W * 0.43,
         9.2,
         13.5,
         IVORY,
