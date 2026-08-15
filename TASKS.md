@@ -121,6 +121,7 @@ Prioridades:
 - [ ] `P0` Verificar formulários e links de contato.
 - [ ] `P1` Avaliar métricas de desempenho.
 - [x] `P1` Validar metadados e compartilhamento social com miniatura JPEG leve de 1200 x 630 para WhatsApp e outras plataformas; composição atualizada com a foto de palco aprovada pelo artista.
+- [x] `P1` Refinar o press kit em quatro páginas com linguagem editorial de palco, recortes seguros, contraste ampliado e contatos clicáveis.
 - [ ] `P1` Realizar revisão final de texto e imagens.
 
 ## Critério para desbloquear a implementação

@@ -16,28 +16,28 @@ MEDIA = ROOT / "public" / "media"
 OUTPUT = ROOT / "output" / "pdf" / "press-kit-anderson-junior.pdf"
 
 PAGE_W, PAGE_H = A4
-COFFEE = colors.HexColor("#211B18")
-COFFEE_DEEP = colors.HexColor("#171310")
-GRAPHITE = colors.HexColor("#292826")
-BLACK = colors.HexColor("#101010")
-IVORY = colors.HexColor("#F3EEE5")
-MIST = colors.HexColor("#B9B2A7")
-PAPER = colors.HexColor("#E8DFD0")
-INK = colors.HexColor("#171512")
-COPPER = colors.HexColor("#BD7045")
-EMBER = colors.HexColor("#E66F22")
+BLACK = colors.HexColor("#0B0B0B")
+COFFEE = colors.HexColor("#1D1714")
+GRAPHITE = colors.HexColor("#272522")
+PAPER = colors.HexColor("#EEE7DC")
+IVORY = colors.HexColor("#FFF9EF")
+MIST = colors.HexColor("#BDB4A8")
+INK = colors.HexColor("#181512")
+ORANGE = colors.HexColor("#FF6A00")
+COPPER = colors.HexColor("#B65E32")
 
 
 def register_fonts():
     font_dir = Path("C:/Windows/Fonts")
-    candidates = {
-        "Display": font_dir / "georgia.ttf",
-        "DisplayBold": font_dir / "georgiab.ttf",
+    fonts = {
+        "Display": font_dir / "ariblk.ttf",
         "Sans": font_dir / "arial.ttf",
         "SansBold": font_dir / "arialbd.ttf",
+        "Serif": font_dir / "georgia.ttf",
+        "SerifBold": font_dir / "georgiab.ttf",
         "Mono": font_dir / "cour.ttf",
     }
-    for name, path in candidates.items():
+    for name, path in fonts.items():
         if path.exists():
             pdfmetrics.registerFont(TTFont(name, str(path)))
 
@@ -51,29 +51,17 @@ def crop_image(c, path, x, y, width, height, position_x=0.5, position_y=0.5, alp
     draw_x = x - (draw_w - width) * position_x
     draw_y = y - (draw_h - height) * position_y
     c.saveState()
-    path_clip = c.beginPath()
-    path_clip.rect(x, y, width, height)
-    c.clipPath(path_clip, stroke=0, fill=0)
+    clip = c.beginPath()
+    clip.rect(x, y, width, height)
+    c.clipPath(clip, stroke=0, fill=0)
     c.setFillAlpha(alpha)
     c.drawImage(image, draw_x, draw_y, draw_w, draw_h, mask="auto")
     c.restoreState()
 
 
-def draw_rule(c, x, y, width, color=COPPER, thickness=1):
-    c.setStrokeColor(color)
-    c.setLineWidth(thickness)
-    c.line(x, y, x + width, y)
-
-
-def draw_label(c, text, x, y, color=COPPER):
-    c.setFillColor(color)
-    c.setFont("Mono", 8)
-    c.drawString(x, y, text.upper())
-
-
-def paragraph(c, text, x, y_top, width, font_size=11, leading=17, color=INK, font="Sans"):
+def paragraph(c, text, x, y_top, width, font_size=10, leading=15, color=INK, font="Sans"):
     style = ParagraphStyle(
-        name="body",
+        name="press-kit-body",
         fontName=font,
         fontSize=font_size,
         leading=leading,
@@ -87,200 +75,323 @@ def paragraph(c, text, x, y_top, width, font_size=11, leading=17, color=INK, fon
     return y_top - height
 
 
-def page_number(c, number, light=False):
-    c.setFillColor(MIST if light else colors.HexColor("#6F675E"))
+def label(c, text, x, y, color=ORANGE):
+    c.setFillColor(color)
+    c.setFont("Mono", 7.5)
+    c.drawString(x, y, text.upper())
+
+
+def page_mark(c, number, light=True):
+    color = colors.Color(1, 1, 1, alpha=0.48) if light else colors.HexColor("#6D6258")
+    c.setFillColor(color)
     c.setFont("Mono", 7)
-    c.drawRightString(PAGE_W - 34, 24, f"ANDERSON JUNIOR  /  0{number}")
+    c.drawRightString(PAGE_W - 32, 21, f"ANDERSON JUNIOR  /  0{number}")
+
+
+def vertical_brand_line(c, x=22, y=32, height=None, color=ORANGE):
+    height = height or PAGE_H - 64
+    c.setStrokeColor(color)
+    c.setLineWidth(2.2)
+    c.line(x, y, x, y + height)
+
+
+def outline_word(c, text, x, y, size, color, alpha=0.24):
+    c.saveState()
+    c.setStrokeColor(colors.Color(color.red, color.green, color.blue, alpha=alpha))
+    c.setLineWidth(0.8)
+    text_object = c.beginText(x, y)
+    text_object.setFont("Display", size)
+    text_object.setTextRenderMode(1)
+    text_object.textLine(text)
+    c.drawText(text_object)
+    c.restoreState()
+
+
+def orange_corners(c, x, y, width, height, length=18):
+    c.setStrokeColor(ORANGE)
+    c.setLineWidth(2)
+    for x1, y1, x2, y2 in [
+        (x, y + height - length, x, y + height),
+        (x, y + height, x + length, y + height),
+        (x + width - length, y, x + width, y),
+        (x + width, y, x + width, y + length),
+    ]:
+        c.line(x1, y1, x2, y2)
 
 
 def draw_cover(c):
-    c.setFillColor(BLACK)
+    crop_image(c, MEDIA / "palco-chapeu.jpg", 0, 0, PAGE_W, PAGE_H, 0.53, 0.42)
+    c.setFillColor(colors.Color(0.02, 0.015, 0.012, alpha=0.48))
     c.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
-    crop_image(c, MEDIA / "anderson-chapeu.png", PAGE_W * 0.39, 0, PAGE_W * 0.61, PAGE_H, 0.62, 0.52)
-
-    c.setFillColor(colors.Color(0.02, 0.02, 0.02, alpha=0.42))
-    c.rect(PAGE_W * 0.42, 0, PAGE_W * 0.58, PAGE_H, fill=1, stroke=0)
-    c.setFillColor(BLACK)
+    c.setFillColor(colors.Color(0.03, 0.025, 0.02, alpha=0.76))
     c.rect(0, 0, PAGE_W * 0.48, PAGE_H, fill=1, stroke=0)
+
+    outline_word(c, "AO VIVO", -10, PAGE_H - 205, 84, IVORY, 0.16)
+    vertical_brand_line(c)
+    label(c, "Press kit oficial / 2026", 44, PAGE_H - 52, IVORY)
+
+    c.setFillColor(ORANGE)
+    c.roundRect(44, PAGE_H - 112, 96, 28, 0, fill=1, stroke=0)
+    c.setFillColor(BLACK)
+    c.setFont("SansBold", 10)
+    c.drawCentredString(92, PAGE_H - 102, "MÍDIA KIT")
 
     c.drawImage(
         str(MEDIA / "anderson-junior-logo.png"),
-        42,
-        PAGE_H * 0.49,
-        width=PAGE_W * 0.47,
-        height=PAGE_W * 0.47 / 3.39,
+        43,
+        PAGE_H * 0.41,
+        width=PAGE_W * 0.51,
+        height=PAGE_W * 0.51 / 3.39,
         preserveAspectRatio=True,
         mask="auto",
     )
-    draw_rule(c, 44, PAGE_H * 0.47, 54, EMBER, 2)
-    draw_label(c, "Press kit 2026", 44, PAGE_H - 58, MIST)
+    c.setStrokeColor(ORANGE)
+    c.setLineWidth(3)
+    c.line(44, PAGE_H * 0.39, 116, PAGE_H * 0.39)
+
     c.setFillColor(IVORY)
-    c.setFont("SansBold", 10)
-    c.drawString(44, 92, "CANTOR SERTANEJO")
+    c.setFont("Display", 20)
+    c.drawString(44, 108, "CANTOR SERTANEJO")
     c.setFillColor(MIST)
-    c.setFont("Sans", 9)
-    c.drawString(44, 74, "Passos, Minas Gerais")
-    page_number(c, 1, light=True)
+    c.setFont("Sans", 9.5)
+    c.drawString(44, 86, "Passos, Minas Gerais")
+    c.setFillColor(ORANGE)
+    c.circle(PAGE_W - 55, 52, 4.5, fill=1, stroke=0)
+    c.circle(PAGE_W - 39, 52, 4.5, fill=1, stroke=0)
+    page_mark(c, 1)
     c.showPage()
 
 
 def draw_artist(c):
     c.setFillColor(PAPER)
     c.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
-    crop_image(c, MEDIA / "memoria-pai.jpg", 28, 28, PAGE_W * 0.47, PAGE_H - 56, 0.34, 0.5)
+    vertical_brand_line(c, color=COPPER)
 
-    x = PAGE_W * 0.54
-    width = PAGE_W * 0.38
-    draw_label(c, "01 / O artista", x, PAGE_H - 58)
+    label(c, "01 / Release", 42, PAGE_H - 48, COPPER)
     c.setFillColor(INK)
-    c.setFont("Display", 35)
-    c.drawString(x, PAGE_H - 116, "Uma história")
-    c.drawString(x, PAGE_H - 154, "que começou")
-    c.drawString(x, PAGE_H - 192, "dentro de casa.")
-    draw_rule(c, x, PAGE_H - 216, 60, COPPER, 1.5)
+    c.setFont("Display", 45)
+    c.drawString(40, PAGE_H - 102, "A HISTÓRIA")
+    outline_word(c, "COMEÇOU", 41, PAGE_H - 146, 44, COPPER, 0.25)
 
-    y = PAGE_H - 254
-    y = paragraph(
+    photo_x, photo_y, photo_w, photo_h = 40, PAGE_H - 442, PAGE_W - 80, 260
+    crop_image(c, MEDIA / "memoria-pai.jpg", photo_x, photo_y, photo_w, photo_h, 0.5, 0.48)
+    c.setFillColor(colors.Color(0.04, 0.03, 0.02, alpha=0.1))
+    c.rect(photo_x, photo_y, photo_w, photo_h, fill=1, stroke=0)
+    orange_corners(c, photo_x, photo_y, photo_w, photo_h, 22)
+    c.setFillColor(colors.Color(0.05, 0.04, 0.03, alpha=0.84))
+    c.rect(photo_x + 14, photo_y + 14, 225, 28, fill=1, stroke=0)
+    c.setFillColor(IVORY)
+    c.setFont("SansBold", 8)
+    c.drawString(photo_x + 25, photo_y + 24, "ANDERSON E O PAI  /  ONDE A MÚSICA COMEÇOU")
+
+    c.setFillColor(COPPER)
+    c.rect(40, 284, 5, 110, fill=1, stroke=0)
+    left_x = 59
+    right_x = PAGE_W * 0.54
+    col_w = PAGE_W * 0.39
+    y_left = 390
+    y_left = paragraph(
         c,
         "A música entrou cedo na vida de Anderson Junior. Foi com o pai, que cantava e tocava, que aprendeu seus primeiros acordes. Um deles foi <b>Menino da Porteira</b>.",
-        x,
-        y,
-        width,
-        11.5,
-        18,
+        left_x,
+        y_left,
+        col_w,
+        10.3,
+        15.5,
         INK,
     )
-    y -= 18
-    y = paragraph(
+    y_left -= 14
+    paragraph(
         c,
-        "Na escola, passou a cantar e tocar e, mais tarde, levou a música para festas, churrascos e encontros. Formado em Sistemas de Informação, trabalhou com tecnologia até decidir seguir o sonho de viver dos palcos.",
-        x,
-        y,
-        width,
-        9.6,
-        15,
+        "Na escola, passou a cantar e tocar e, mais tarde, levou a música para festas, churrascos e encontros.",
+        left_x,
+        y_left,
+        col_w,
+        9.2,
+        14,
         INK,
     )
-    y -= 14
+
+    y_right = 390
+    y_right = paragraph(
+        c,
+        "Formado em Sistemas de Informação, trabalhou com tecnologia até decidir seguir o sonho de viver dos palcos.",
+        right_x,
+        y_right,
+        col_w,
+        9.2,
+        14,
+        INK,
+    )
+    y_right -= 14
     paragraph(
         c,
         "Depois de uma fase de aprendizado em uma dupla sertaneja, iniciou um novo momento em carreira solo.",
-        x,
-        y,
-        width,
-        9.6,
-        15,
+        right_x,
+        y_right,
+        col_w,
+        9.2,
+        14,
         INK,
     )
-    page_number(c, 2)
+
+    transition_y, transition_h = 40, 205
+    crop_image(c, MEDIA / "palco-luzes.jpg", 40, transition_y, PAGE_W - 80, transition_h, 0.5, 0.44)
+    c.setFillColor(colors.Color(0.025, 0.02, 0.015, alpha=0.62))
+    c.rect(40, transition_y, PAGE_W - 80, transition_h, fill=1, stroke=0)
+    c.setFillColor(ORANGE)
+    c.rect(40, transition_y, 8, transition_h, fill=1, stroke=0)
+    label(c, "Hoje / Carreira solo", 68, transition_y + transition_h - 34, ORANGE)
+    c.setFillColor(IVORY)
+    c.setFont("Display", 26)
+    c.drawString(68, transition_y + transition_h - 72, "EMOÇÃO E ENERGIA")
+    paragraph(
+        c,
+        "Voz, violão e viola caipira em uma apresentação construída para criar proximidade com o público.",
+        68,
+        transition_y + transition_h - 94,
+        PAGE_W * 0.48,
+        9.2,
+        13.5,
+        IVORY,
+    )
+    page_mark(c, 2, light=False)
     c.showPage()
 
 
 def draw_show(c):
     c.setFillColor(COFFEE)
     c.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
-    crop_image(c, MEDIA / "viola-caipira.jpg", PAGE_W * 0.56, 34, PAGE_W * 0.39, PAGE_H - 68, 0.5, 0.45)
+    vertical_brand_line(c)
+    outline_word(c, "O SHOW", 28, PAGE_H - 106, 78, ORANGE, 0.18)
+    label(c, "02 / Identidade de palco", 42, PAGE_H - 48, ORANGE)
 
-    x = 42
-    width = PAGE_W * 0.43
-    draw_label(c, "02 / O show", x, PAGE_H - 58)
+    image_y = PAGE_H * 0.41
+    image_h = PAGE_H * 0.43
+    crop_image(c, MEDIA / "palco-microfone.jpg", 41, image_y, PAGE_W * 0.28, image_h, 0.48, 0.45)
+    crop_image(c, MEDIA / "viola-caipira.jpg", PAGE_W * 0.34, image_y, PAGE_W * 0.34, image_h, 0.5, 0.42)
+    crop_image(c, MEDIA / "palco-voz.jpg", PAGE_W * 0.70, image_y, PAGE_W * 0.25, image_h, 0.5, 0.42)
+    c.setFillColor(colors.Color(0.03, 0.02, 0.015, alpha=0.22))
+    c.rect(41, image_y, PAGE_W * 0.91, image_h, fill=1, stroke=0)
+    orange_corners(c, 41, image_y, PAGE_W * 0.91, image_h, 20)
+
     c.setFillColor(IVORY)
-    c.setFont("Display", 44)
-    c.drawString(x, PAGE_H - 126, "Voz")
-    c.setFillColor(PAPER)
-    c.setFont("Display", 44)
-    c.drawString(x + 24, PAGE_H - 174, "Violão")
-    c.setFont("Display", 44)
-    c.drawString(x + 48, PAGE_H - 222, "Viola")
-    draw_rule(c, x, PAGE_H - 244, 72, EMBER, 2)
+    c.setFont("Display", 34)
+    c.drawString(42, 285, "VOZ  ·  VIOLÃO  ·  VIOLA")
+    c.setFillColor(ORANGE)
+    c.rect(42, 268, 88, 4, fill=1, stroke=0)
 
-    y = PAGE_H - 284
+    body_w = PAGE_W * 0.54
     y = paragraph(
         c,
         "Anderson alterna entre violão e viola caipira e mantém uma relação próxima com o público por meio da música, da conversa e da interação.",
-        x,
-        y,
-        width,
-        11,
-        18,
+        42,
+        242,
+        body_w,
+        10.2,
+        15.5,
         IVORY,
     )
-    y -= 20
-    y = paragraph(
+    y -= 12
+    paragraph(
         c,
         "O repertório reúne sucessos atuais, músicas românticas, clássicos e modas sertanejas, transitando naturalmente entre emoção e energia.",
-        x,
+        42,
         y,
-        width,
-        10,
-        16,
+        body_w,
+        9.2,
+        14,
         MIST,
     )
-    y -= 34
-    draw_label(c, "Banda completa", x, y, EMBER)
+
+    box_x, box_y, box_w, box_h = PAGE_W * 0.65, 78, PAGE_W * 0.30, 174
+    c.setFillColor(ORANGE)
+    c.rect(box_x, box_y, box_w, box_h, fill=1, stroke=0)
+    c.setFillColor(BLACK)
+    c.setFont("Display", 20)
+    c.drawString(box_x + 18, box_y + box_h - 38, "BANDA")
+    c.drawString(box_x + 18, box_y + box_h - 64, "COMPLETA")
+    c.setStrokeColor(BLACK)
+    c.setLineWidth(2)
+    c.line(box_x + 18, box_y + box_h - 77, box_x + 62, box_y + box_h - 77)
     paragraph(
         c,
         "Formação de maior escala para prefeituras, exposições e grandes eventos. Disponibilidade, estrutura e formato são tratados diretamente no contato.",
-        x,
-        y - 22,
-        width,
-        9.5,
-        15,
-        IVORY,
+        box_x + 18,
+        box_y + box_h - 96,
+        box_w - 36,
+        8.4,
+        11.8,
+        BLACK,
+        "SansBold",
     )
-    page_number(c, 3, light=True)
+    page_mark(c, 3)
     c.showPage()
 
 
 def draw_trajectory(c):
     c.setFillColor(GRAPHITE)
     c.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
-    crop_image(c, MEDIA / "palco-preto-branco.jpg", 0, PAGE_H * 0.48, PAGE_W, PAGE_H * 0.52, 0.5, 0.42)
-    c.setFillColor(colors.Color(0.04, 0.04, 0.04, alpha=0.5))
-    c.rect(0, PAGE_H * 0.48, PAGE_W, PAGE_H * 0.52, fill=1, stroke=0)
+    crop_image(c, MEDIA / "palco-preto-branco.jpg", 0, PAGE_H * 0.44, PAGE_W, PAGE_H * 0.56, 0.5, 0.36)
+    c.setFillColor(colors.Color(0.02, 0.02, 0.02, alpha=0.54))
+    c.rect(0, PAGE_H * 0.44, PAGE_W, PAGE_H * 0.56, fill=1, stroke=0)
+    vertical_brand_line(c)
 
-    draw_label(c, "03 / Trajetória", 42, PAGE_H - 54, EMBER)
+    label(c, "03 / Trajetória", 42, PAGE_H - 48, ORANGE)
     c.setFillColor(IVORY)
-    c.setFont("Display", 34)
-    c.drawString(42, PAGE_H - 102, "Dos palcos da região")
-    c.drawString(42, PAGE_H - 140, "para novos encontros.")
+    c.setFont("Display", 36)
+    c.drawString(42, PAGE_H - 100, "DOS PALCOS")
+    c.setFillColor(ORANGE)
+    c.drawString(42, PAGE_H - 143, "DA REGIÃO")
+    c.setFillColor(IVORY)
+    c.setFont("SerifBold", 28)
+    c.drawString(42, PAGE_H - 184, "para novos encontros.")
 
-    x = 42
-    y = PAGE_H * 0.43
-    width = PAGE_W - 84
-    y = paragraph(
+    body_top = PAGE_H * 0.40
+    left_w = PAGE_W * 0.43
+    right_x = PAGE_W * 0.54
+    y_left = paragraph(
         c,
         "Anderson Junior já se apresentou em exposições, casas noturnas e eventos em cidades como <b>Passos, São João Batista do Glória e Alpinópolis</b>.",
-        x,
-        y,
-        width,
-        11,
-        18,
+        42,
+        body_top,
+        left_w,
+        9.8,
+        15,
         IVORY,
     )
-    y -= 18
-    y = paragraph(
+    paragraph(
         c,
         "Em sua trajetória, dividiu o palco com <b>Clayton &amp; Romário, Lucas Reis &amp; Thácio e Diego &amp; Victor Hugo</b>, entre vários outros nomes do sertanejo.",
-        x,
-        y,
-        width,
-        11,
-        18,
+        right_x,
+        body_top,
+        PAGE_W - right_x - 42,
+        9.8,
+        15,
         IVORY,
     )
-    y -= 34
-    draw_rule(c, x, y, width, colors.Color(1, 1, 1, alpha=0.18), 1)
-    y -= 38
-    draw_label(c, "Contato para shows", x, y, EMBER)
-    c.setFillColor(IVORY)
+
+    c.setFillColor(ORANGE)
+    c.rect(0, 0, PAGE_W, 150, fill=1, stroke=0)
+    c.setFillColor(BLACK)
+    c.setFont("Display", 22)
+    c.drawString(42, 108, "CONTATO PARA SHOWS")
     c.setFont("SansBold", 13)
-    c.drawString(x, y - 30, "WhatsApp  +55 35 98409-4626")
-    c.setFont("Sans", 10)
-    c.setFillColor(MIST)
-    c.drawString(x, y - 54, "Instagram  @andersonjrcantor")
-    c.drawString(x, y - 74, "TikTok  @andersonjrcantor")
-    page_number(c, 4, light=True)
+    c.drawString(42, 80, "WhatsApp  +55 35 98409-4626")
+    c.setFont("Sans", 9)
+    c.drawString(42, 58, "Instagram  @andersonjrcantor     TikTok  @andersonjrcantor")
+
+    site_x = PAGE_W - 218
+    c.setFillColor(BLACK)
+    c.roundRect(site_x, 52, 176, 42, 0, fill=1, stroke=0)
+    c.setFillColor(IVORY)
+    c.setFont("SansBold", 8.5)
+    c.drawCentredString(site_x + 88, 72, "ANDERSONJRCANTOR.COM.BR")
+    c.linkURL("https://www.andersonjrcantor.com.br", (site_x, 52, site_x + 176, 94), relative=0)
+    c.linkURL("https://wa.me/5535984094626", (42, 70, 270, 98), relative=0)
+    c.linkURL("https://www.instagram.com/andersonjrcantor/", (42, 48, 194, 68), relative=0)
+    c.linkURL("https://www.tiktok.com/@andersonjrcantor", (200, 48, 342, 68), relative=0)
+    page_mark(c, 4, light=False)
     c.showPage()
 
 
