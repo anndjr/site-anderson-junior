@@ -320,7 +320,9 @@ A primeira versão refinada usa a paleta café, grafite, preto e papel. O cobre 
 
 O movimento possui três motivos: entrada vertical curta para conteúdo, revelação por máscara para mudanças editoriais e abertura suave para fotografias. O parallax permanece restrito às imagens de fundo. Em `prefers-reduced-motion`, esses movimentos são removidos.
 
-A galeria abre com seis fotografias curadas, alternando imagens amplas e pares assimétricos. Duas fotografias complementares ficam disponíveis por ação explícita, o que preserva ritmo e reduz a sensação de rolagem infinita. Fotografias de galeria recebem fio de borda quente; imagens de palco em tela cheia continuam sem moldura.
+A galeria abre com seis fotografias curadas, alternando imagens amplas e pares assimétricos. Duas fotografias complementares ficam disponíveis por ação explícita, o que preserva ritmo e reduz a sensação de rolagem infinita.
+
+As fotografias editoriais usam uma moldura em duas camadas: margem material estreita, linha interna clara e sombra curta de baixa opacidade. O detalhe aproxima a galeria de uma seleção fotográfica impressa sem transformar as imagens em cartões. Fotografias de palco em tela cheia permanecem sem moldura para preservar escala e imersão.
 
 O cabeçalho começa translúcido, ganha solidez após a rolagem e indica a seção ativa. No celular, o menu ocupa a área visível completa, mantém contato rápido para shows e fecha por ação explícita ou `Escape`.
 

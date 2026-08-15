@@ -514,7 +514,18 @@ a {
 .signature-image {
   position: relative;
   overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgb(243 238 229 / 16%);
+  box-shadow:
+    0 0 0 1px rgb(243 238 229 / 20%),
+    0 2rem 5rem rgb(0 0 0 / 24%);
+}
+
+.signature-image::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0.65rem;
+  border: 1px solid rgb(243 238 229 / 28%);
+  content: "";
+  pointer-events: none;
 }
 
 .signature-image img {
@@ -539,6 +550,9 @@ a {
   align-self: end;
   margin-bottom: -3rem;
   border: 0.4rem solid var(--coffee);
+  box-shadow:
+    0 0 0 1px rgb(191 116 71 / 55%),
+    0 1.4rem 3.5rem rgb(0 0 0 / 34%);
 }
 
 .signature-image-detail img {
@@ -547,6 +561,7 @@ a {
 
 .signature-image-label {
   position: absolute;
+  z-index: 3;
   right: 0.75rem;
   bottom: 0.75rem;
   padding: 0.45rem 0.6rem;
@@ -571,7 +586,18 @@ a {
   min-height: 52rem;
   margin: clamp(1rem, 2vw, 2rem);
   overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgb(23 21 18 / 18%);
+  box-shadow:
+    0 0 0 1px rgb(23 21 18 / 20%),
+    0 1.75rem 4rem rgb(23 21 18 / 12%);
+}
+
+.story-image::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0.7rem;
+  border: 1px solid rgb(243 238 229 / 38%);
+  content: "";
+  pointer-events: none;
 }
 
 .story-image img {
@@ -581,6 +607,7 @@ a {
 
 .story-image p {
   position: absolute;
+  z-index: 3;
   right: 1rem;
   bottom: 1rem;
   left: 1rem;
@@ -782,18 +809,48 @@ a {
 .gallery-item {
   position: relative;
   margin: 0;
+  padding: clamp(0.3rem, 0.4vw, 0.45rem);
   overflow: hidden;
-  border: 1px solid rgb(23 21 18 / 18%);
+  border: 1px solid rgb(23 21 18 / 22%);
+  background: linear-gradient(145deg, #ddd5c9, #c9bfb2);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 32%),
+    0 1.2rem 2.8rem rgb(23 21 18 / 9%);
+  transition: border-color 300ms ease, box-shadow 400ms ease;
+}
+
+.gallery-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   background: #aaa095;
 }
 
-.gallery-item img {
+.gallery-image::after {
+  position: absolute;
+  z-index: 2;
+  inset: clamp(0.35rem, 0.55vw, 0.6rem);
+  border: 1px solid rgb(243 238 229 / 32%);
+  box-shadow: inset 0 0 0 1px rgb(23 21 18 / 8%);
+  content: "";
+  pointer-events: none;
+}
+
+.gallery-image img {
   object-fit: cover;
   filter: saturate(0.92) contrast(1.025);
   transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), filter 400ms ease;
 }
 
-.gallery-item:hover img {
+.gallery-item:hover {
+  border-color: rgb(142 81 48 / 52%);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 42%),
+    0 1.6rem 3.4rem rgb(23 21 18 / 14%);
+}
+
+.gallery-item:hover .gallery-image img {
   transform: scale(1.035);
   filter: saturate(1) contrast(1.01);
 }
@@ -815,19 +872,15 @@ a {
   display: block;
 }
 
-.gallery-item-5 img {
-  object-position: center 15%;
-}
-
-.gallery-item-4 img {
+.gallery-item-4 .gallery-image img {
   object-position: center 16%;
 }
 
-.gallery-item-5 img {
+.gallery-item-5 .gallery-image img {
   object-position: center 18%;
 }
 
-.gallery-item-6 img {
+.gallery-item-6 .gallery-image img {
   object-position: center 12%;
 }
 

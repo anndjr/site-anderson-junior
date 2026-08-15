@@ -36,7 +36,9 @@ export function Gallery() {
             delay={(index % 2) * 0.08}
             key={image.src}
           >
-            <Image src={image.src} alt={image.alt} fill sizes="(max-width: 700px) 92vw, 44vw" />
+            <div className="gallery-image">
+              <Image src={image.src} alt={image.alt} fill sizes="(max-width: 700px) 92vw, 44vw" />
+            </div>
           </Reveal>
         ))}
       </div>

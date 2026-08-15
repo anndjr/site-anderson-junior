@@ -104,6 +104,7 @@ Prioridades:
 - [x] `P1` Reduzir a extensão inicial da galeria para seis imagens e disponibilizar duas fotos complementares sob demanda.
 - [x] `P1` Implementar cabeçalho translúcido na abertura, sólido na rolagem e com indicação da seção ativa.
 - [x] `P1` Refinar bordas, tratamento cromático, enquadramento da memória e composição da seção Viola.
+- [x] `P1` Unificar o acabamento das fotografias editoriais com moldura em duas camadas, linha interna e profundidade discreta em desktop e mobile.
 - [x] `P1` Corrigir a camada de navegação mobile após validação em viewport compacto.
 - [x] `P1` Suavizar a borda direita da fotografia de abertura para fundi-la ao fundo sem revelar o limite do arquivo.
 - [x] `P1` Preservar a escala visual da interface em telas lógicas muito largas e níveis reduzidos de zoom do navegador.
