@@ -180,7 +180,7 @@ export default function Home() {
             </a>
             <a
               className="press-kit-link"
-              href="/downloads/press-kit-anderson-junior.pdf?v=20260815-cover"
+              href="/downloads/press-kit-anderson-junior.pdf?v=20260815-signature"
               download
             >
               <FontAwesomeIcon icon={faFileArrowDown} aria-hidden="true" />

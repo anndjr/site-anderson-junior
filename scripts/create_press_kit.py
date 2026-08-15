@@ -182,8 +182,11 @@ def draw_cover(c):
     c.line(44, PAGE_H * 0.39, 116, PAGE_H * 0.39)
 
     c.setFillColor(IVORY)
-    c.setFont("Display", 20)
-    c.drawString(44, 108, "CANTOR SERTANEJO")
+    signature = c.beginText(44, 108)
+    signature.setFont("SerifBold", 15.5)
+    signature.setCharSpace(1.05)
+    signature.textLine("CANTOR SERTANEJO")
+    c.drawText(signature)
     c.setFillColor(MIST)
     c.setFont("Sans", 9.5)
     c.drawString(44, 86, "Passos, Minas Gerais")
