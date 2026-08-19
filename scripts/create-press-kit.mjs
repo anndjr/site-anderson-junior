@@ -240,17 +240,27 @@ async function show() {
     { tamanho: 10, entrelinha: 15.4, cor: COR.nevoa },
   );
 
-  const cartao = (x, y, largura, titulo, texto) => {
-    const corpo = paragrafo(texto, x + 14, y + 52, largura - 28, {
+  const ALTURA_CARTAO = 138;
+
+  const cartao = (x, y, largura, titulo, formacao, texto) => {
+    const linhaFormacao = paragrafo(formacao, x + 14, y + 62, largura - 28, {
+      tamanho: 8,
+      entrelinha: 11,
+      cor: COR.papel,
+      fonte: FONTE.forte,
+      fator: 0.47,
+    });
+    const corpo = paragrafo(texto, x + 14, linhaFormacao.fim + 20, largura - 28, {
       tamanho: 8.2,
       entrelinha: 11.8,
       cor: COR.nevoa,
     });
     return `
-      <rect x="${x}" y="${y}" width="${largura}" height="118" fill="${COR.cafeMedio}" stroke="rgba(243,238,229,0.16)" stroke-width="0.7"/>
-      <rect x="${x}" y="${y}" width="3" height="118" fill="${COR.brasa}"/>
-      <text x="${x + 14}" y="${y + 30}" font-family="${FONTE.forte}" font-size="12.5" fill="${COR.marfim}" letter-spacing="0.6">${escapar(titulo.toUpperCase())}</text>
-      ${corpo.svg}`;
+      <rect x="${x}" y="${y}" width="${largura}" height="${ALTURA_CARTAO}" fill="${COR.cafeMedio}" stroke="rgba(243,238,229,0.16)" stroke-width="0.7"/>
+      <rect x="${x}" y="${y}" width="3" height="${ALTURA_CARTAO}" fill="${COR.brasa}"/>
+      <text x="${x + 14}" y="${y + 26}" font-family="${FONTE.mono}" font-size="6.6" fill="${COR.cobre}" letter-spacing="1.4">FORMATO</text>
+      <text x="${x + 14}" y="${y + 46}" font-family="${FONTE.forte}" font-size="13.5" fill="${COR.marfim}" letter-spacing="0.6">${escapar(titulo.toUpperCase())}</text>
+      ${linhaFormacao.svg}${corpo.svg}`;
   };
 
   const larguraCartao = (larguraTotal - 18) / 2;
@@ -269,8 +279,22 @@ async function show() {
       })
       .join("")}
     ${descricao.svg}
-    ${cartao(MARGEM, 596, larguraCartao, "Formato solo", "Voz, violão e viola caipira. Formato de maior proximidade, para casamentos, bares e eventos privados.")}
-    ${cartao(MARGEM + larguraCartao + 18, 596, larguraCartao, "Banda completa", "A formação de maior escala para prefeituras, exposições e grandes eventos. Estrutura e formato são tratados no contato.")}
+    ${cartao(
+      MARGEM,
+      590,
+      larguraCartao,
+      "Violada",
+      "Voz, violão e viola caipira, com violonista, sanfona, baixo, cajón e percussão",
+      "Formação acústica, de som mais quente e próximo. O repertório respira, a viola aparece e o público ouve de perto.",
+    )}
+    ${cartao(
+      MARGEM + larguraCartao + 18,
+      590,
+      larguraCartao,
+      "Banda completa",
+      "Composição definida conforme o porte do evento",
+      "A formação de maior escala, para prefeituras, exposições e grandes eventos. Estrutura e formato são tratados no contato.",
+    )}
     ${marcaDaPagina(3, "rgba(255,255,255,0.4)")}
   `;
 
