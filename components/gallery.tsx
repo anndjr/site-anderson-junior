@@ -98,11 +98,10 @@ export function Gallery() {
           {/* O clique no fundo fecha; dentro da figura ele não deve propagar. */}
           <figure className="lightbox-figure" onClick={(evento) => evento.stopPropagation()}>
             <Image src={gallery[aberta].src} alt={gallery[aberta].alt} fill sizes="100vw" priority />
-            <figcaption>
-              <span>{gallery[aberta].alt}</span>
-              <span className="lightbox-count">
-                {String(aberta + 1).padStart(2, "0")} / {String(gallery.length).padStart(2, "0")}
-              </span>
+            {/* A descrição continua no `alt`, para leitores de tela. Impressa
+                na tela ela soaria como etiqueta técnica, não como legenda. */}
+            <figcaption className="lightbox-count">
+              {String(aberta + 1).padStart(2, "0")} / {String(gallery.length).padStart(2, "0")}
             </figcaption>
           </figure>
 
