@@ -5,12 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
+import { ContactLink } from "@/components/contact-link";
 
-type HeroProps = {
-  whatsappUrl: string;
-};
-
-export function Hero({ whatsappUrl }: HeroProps) {
+export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -25,7 +22,7 @@ export function Hero({ whatsappUrl }: HeroProps) {
     <section ref={sectionRef} id="inicio" className="hero" aria-labelledby="hero-title">
       <motion.div className="hero-media" style={{ y: reduceMotion ? 0 : imageY }} aria-hidden="true">
         <Image
-          src="/media/anderson-chapeu.png"
+          src="/media/anderson-chapeu.webp"
           alt=""
           fill
           priority
@@ -49,11 +46,11 @@ export function Hero({ whatsappUrl }: HeroProps) {
             sizes="(max-width: 700px) 82vw, 52vw"
           />
         </div>
-        <a className="primary-action" href={whatsappUrl} target="_blank" rel="noreferrer">
+        <ContactLink className="primary-action" origin="abertura">
           <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
           Contato para shows
           <span aria-hidden="true">↗</span>
-        </a>
+        </ContactLink>
       </motion.div>
       <a className="scroll-cue" href="#ao-vivo">
         <span>Conheça o show</span>

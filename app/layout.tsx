@@ -2,8 +2,14 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Cormorant_Garamond, IBM_Plex_Mono, Manrope } from "next/font/google";
+import { config } from "@fortawesome/fontawesome-svg-core";
 import { siteConfig, siteUrl } from "@/lib/site";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import "./globals.css";
+
+// Sem isto o Font Awesome injeta seu CSS em tempo de execução, e os ícones
+// aparecem em tamanho natural por um instante antes da hidratação.
+config.autoAddCss = false;
 
 const displayFont = Cormorant_Garamond({
   subsets: ["latin"],
@@ -52,6 +58,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     locale: siteConfig.locale,

@@ -5,50 +5,30 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { ContactLink } from "@/components/contact-link";
+import { useActiveSection } from "@/lib/use-active-section";
 
+// Mesma ordem em que as seções aparecem na rolagem.
 const navigation = [
-  { href: "#artista", label: "O artista" },
   { href: "#ao-vivo", label: "Ao vivo" },
+  { href: "#artista", label: "O artista" },
   { href: "#fotos", label: "Fotos" },
   { href: "#contato", label: "Contato" },
 ];
 
-type SiteHeaderProps = {
-  whatsappUrl: string;
-};
+const trackedSections = ["inicio", ...navigation.map((item) => item.href.slice(1))];
 
-export function SiteHeader({ whatsappUrl }: SiteHeaderProps) {
+export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("inicio");
+  const activeSection = useActiveSection(trackedSections);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-
-    const sections = ["inicio", ...navigation.map((item) => item.href.slice(1))]
-      .map((id) => document.getElementById(id))
-      .filter((section): section is HTMLElement => Boolean(section));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visible?.target.id) setActiveSection(visible.target.id);
-      },
-      { rootMargin: "-28% 0px -58%", threshold: [0, 0.2, 0.5] },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      observer.disconnect();
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -95,15 +75,15 @@ export function SiteHeader({ whatsappUrl }: SiteHeaderProps) {
         ))}
       </nav>
 
-      <a className="header-contact" href={whatsappUrl} target="_blank" rel="noreferrer">
+      <ContactLink className="header-contact" origin="cabecalho">
         <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
         Contato para shows
-      </a>
+      </ContactLink>
 
-      <a className="mobile-quick-contact" href={whatsappUrl} target="_blank" rel="noreferrer">
+      <ContactLink className="mobile-quick-contact" origin="cabecalho-mobile">
         <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
         Shows
-      </a>
+      </ContactLink>
 
       <button
         ref={triggerRef}
@@ -127,16 +107,10 @@ export function SiteHeader({ whatsappUrl }: SiteHeaderProps) {
             </a>
           ))}
         </nav>
-        <a
-          className="mobile-contact"
-          href={whatsappUrl}
-          target="_blank"
-          rel="noreferrer"
-          tabIndex={open ? 0 : -1}
-        >
+        <ContactLink className="mobile-contact" origin="menu-mobile" tabIndex={open ? 0 : -1}>
           <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
           Consultar disponibilidade
-        </a>
+        </ContactLink>
       </div>
     </header>
   );

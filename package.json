@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "icons": "node scripts/generate-icons.mjs",
+    "media": "node scripts/optimize-media.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "latest",

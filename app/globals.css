@@ -10,7 +10,8 @@
   --paper: #e8dfd0;
   --ink: #171512;
   --copper: #bd7045;
-  --ember: #e66f22;
+  /* Laranja exato da logo oficial, amostrado do arquivo da marca. */
+  --ember: #f27507;
   --line: rgb(243 238 229 / 22%);
   --page-pad: clamp(1.25rem, 4vw, 4rem);
   --display: var(--font-display), Georgia, "Times New Roman", serif;
@@ -1061,6 +1062,211 @@ a {
 
 .site-footer > a:last-child {
   justify-self: end;
+}
+
+/* Fio de progresso: leitura do percurso inteiro, para telas sem a trilha. */
+.scroll-progress {
+  position: fixed;
+  z-index: 45;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--ember);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* Trilha de capítulos: a espinha da narrativa em telas largas. */
+.chapter-rail {
+  position: fixed;
+  z-index: 40;
+  top: 50%;
+  right: calc(var(--page-pad) * 0.55);
+  display: none;
+  transform: translateY(-50%);
+}
+
+.chapter-rail-track {
+  position: absolute;
+  top: 0.55rem;
+  right: -0.9rem;
+  bottom: 0.55rem;
+  width: 1px;
+  overflow: hidden;
+  background: rgb(243 238 229 / 20%);
+}
+
+.chapter-rail-fill {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: var(--ember);
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.chapter-rail ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  align-items: flex-end;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chapter-rail a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  padding: 0.34rem 0;
+  color: var(--mist);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  text-transform: uppercase;
+  opacity: 0.5;
+  transition: opacity 260ms ease, color 260ms ease;
+}
+
+.chapter-rail-label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: max-width 380ms cubic-bezier(0.22, 1, 0.36, 1), opacity 260ms ease;
+}
+
+.chapter-rail a:hover,
+.chapter-rail a:focus-visible,
+.chapter-rail a[aria-current="location"] {
+  color: var(--ivory);
+  opacity: 1;
+}
+
+.chapter-rail a[aria-current="location"] .chapter-rail-index {
+  color: var(--ember);
+}
+
+.chapter-rail a:hover .chapter-rail-label,
+.chapter-rail a:focus-visible .chapter-rail-label,
+.chapter-rail a[aria-current="location"] .chapter-rail-label {
+  max-width: 9rem;
+  opacity: 1;
+}
+
+@media (min-width: 1180px) {
+  .chapter-rail {
+    display: block;
+  }
+
+  .scroll-progress {
+    display: none;
+  }
+}
+
+/* Sobre a passagem editorial clara, a trilha inverte para não sumir. */
+.chapter-rail:has(a[aria-current="location"][href="#artista"]) a,
+.chapter-rail:has(a[aria-current="location"][href="#fotos"]) a {
+  color: rgb(23 21 18 / 70%);
+}
+
+.chapter-rail:has(a[aria-current="location"][href="#artista"]) a[aria-current="location"],
+.chapter-rail:has(a[aria-current="location"][href="#fotos"]) a[aria-current="location"] {
+  color: var(--ink);
+}
+
+.chapter-rail:has(a[aria-current="location"][href="#artista"]) .chapter-rail-track,
+.chapter-rail:has(a[aria-current="location"][href="#fotos"]) .chapter-rail-track {
+  background: rgb(23 21 18 / 22%);
+}
+
+.not-found {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(2.5rem, 6vh, 4rem);
+  padding: clamp(4rem, 10vh, 8rem) var(--page-pad);
+  background: var(--coffee-deep);
+}
+
+.not-found-brand {
+  width: clamp(9rem, 16vw, 13rem);
+}
+
+.not-found-brand img {
+  width: 100%;
+  height: auto;
+}
+
+.not-found-copy h1 {
+  max-width: 14ch;
+  margin: 2rem 0 0;
+  font-family: var(--display);
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 500;
+  line-height: 0.94;
+  letter-spacing: -0.05em;
+}
+
+.not-found-copy > p:last-child {
+  max-width: 38rem;
+  margin: 2rem 0 0;
+  color: var(--mist);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.not-found-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: center;
+}
+
+.not-found-home,
+.not-found-contact {
+  min-height: 3.3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 1.15rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.not-found-home {
+  border: 1px solid rgb(243 238 229 / 58%);
+}
+
+.not-found-home:hover,
+.not-found-home:focus-visible {
+  color: var(--ink);
+  background: var(--ivory);
+}
+
+.not-found-contact {
+  gap: 0.7rem;
+  padding: 0;
+  color: var(--mist);
+}
+
+.not-found-contact svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.not-found-contact:hover,
+.not-found-contact:focus-visible {
+  color: var(--ivory);
 }
 
 @media (max-width: 900px) {

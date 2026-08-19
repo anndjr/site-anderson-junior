@@ -4,21 +4,13 @@ import { faInstagram, faTiktok, faWhatsapp } from "@fortawesome/free-brands-svg-
 import { faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { Hero } from "@/components/hero";
 import { Gallery } from "@/components/gallery";
+import { ChapterRail } from "@/components/chapter-rail";
+import { ContactLink, PressKitLink } from "@/components/contact-link";
 import { ParallaxMedia } from "@/components/parallax-media";
 import { Reveal } from "@/components/reveal";
+import { SignatureWords } from "@/components/signature-words";
 import { SiteHeader } from "@/components/site-header";
-import { siteConfig, siteUrl } from "@/lib/site";
-
-const whatsappMessage = `Olá! Vim pelo site do Anderson Junior e gostaria de informações para um show.
-
-Tipo de evento:
-Data:
-Horário de início:
-Duração prevista:
-Cidade/local:
-Público estimado:`;
-
-const whatsappUrl = `https://wa.me/5535984094626?text=${encodeURIComponent(whatsappMessage)}`;
+import { servedCities, services, siteConfig, siteUrl } from "@/lib/site";
 
 export default function Home() {
   const jsonLd = {
@@ -26,15 +18,31 @@ export default function Home() {
     "@type": "Person",
     name: siteConfig.name,
     url: siteUrl.toString(),
-    image: new URL("/media/anderson-chapeu.png", siteUrl).toString(),
+    image: new URL("/media/anderson-chapeu.webp", siteUrl).toString(),
     description: siteConfig.description,
     jobTitle: "Cantor sertanejo",
-    telephone: "+55 35 98409-4626",
+    telephone: siteConfig.phone,
+    knowsLanguage: "pt-BR",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Passos",
-      addressRegion: "MG",
+      addressLocality: siteConfig.city,
+      addressRegion: siteConfig.region,
       addressCountry: "BR",
+    },
+    areaServed: servedCities.map((city) => ({ "@type": "City", name: city })),
+    makesOffer: services.map((service) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: service,
+        serviceType: "Apresentação musical ao vivo",
+      },
+    })),
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "Contratação de shows",
+      telephone: siteConfig.phone,
+      availableLanguage: "Portuguese",
     },
     sameAs: [siteConfig.instagram, siteConfig.tiktok],
   };
@@ -46,15 +54,16 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <a className="skip-link" href="#conteudo">Ir para o conteúdo</a>
-      <SiteHeader whatsappUrl={whatsappUrl} />
+      <SiteHeader />
+      <ChapterRail />
       <main id="conteudo">
-        <Hero whatsappUrl={whatsappUrl} />
+        <Hero />
 
         <section id="ao-vivo" className="live-intro" aria-labelledby="live-title">
           <ParallaxMedia
             className="live-intro-media"
             imageClassName="live-intro-image"
-            src="/media/palco-chapeu.jpg"
+            src="/media/palco-chapeu.webp"
             alt="Anderson Junior de chapéu cantando no palco"
           />
           <div className="live-intro-shade" />
@@ -67,22 +76,18 @@ export default function Home() {
           </Reveal>
         </section>
 
-        <section className="signature" aria-labelledby="signature-title">
+        <section id="assinatura" className="signature" aria-labelledby="signature-title">
           <div className="signature-copy">
             <p className="section-index">02 / Assinatura</p>
             <h2 id="signature-title" className="sr-only">Assinatura artística</h2>
-            <div className="signature-words" aria-hidden="true">
-              <span>Voz</span>
-              <span>Violão</span>
-              <span>Viola</span>
-            </div>
+            <SignatureWords />
             <p className="signature-description">
               Sucessos atuais, músicas românticas, clássicos e modas sertanejas em um show que transita naturalmente entre emoção e energia.
             </p>
           </div>
           <Reveal className="signature-image signature-image-main" variant="image">
             <Image
-              src="/media/viola-caipira.jpg"
+              src="/media/viola-caipira.webp"
               alt="Anderson Junior de chapéu tocando viola caipira sob luzes de palco"
               fill
               sizes="(max-width: 800px) 82vw, 38vw"
@@ -91,7 +96,7 @@ export default function Home() {
           </Reveal>
           <Reveal className="signature-image signature-image-detail" variant="image" delay={0.12}>
             <Image
-              src="/media/palco-microfone.jpg"
+              src="/media/palco-microfone.webp"
               alt="Anderson Junior tocando violão e cantando ao microfone"
               fill
               sizes="(max-width: 800px) 46vw, 22vw"
@@ -102,7 +107,7 @@ export default function Home() {
         <section id="artista" className="story" aria-labelledby="story-title">
           <div className="story-image">
             <Image
-              src="/media/memoria-pai.jpg"
+              src="/media/memoria-pai.webp"
               alt="Anderson Junior ainda criança ao lado do pai, ambos com violões"
               fill
               sizes="(max-width: 800px) 100vw, 48vw"
@@ -124,7 +129,7 @@ export default function Home() {
           </Reveal>
         </section>
 
-        <section className="trajectory" aria-labelledby="trajectory-title">
+        <section id="trajetoria" className="trajectory" aria-labelledby="trajectory-title">
           <div>
             <p className="section-index">04 / Trajetória</p>
             <h2 id="trajectory-title">Dos palcos da região para novos encontros.</h2>
@@ -141,11 +146,11 @@ export default function Home() {
 
         <Gallery />
 
-        <section className="band" aria-labelledby="band-title">
+        <section id="banda" className="band" aria-labelledby="band-title">
           <ParallaxMedia
             className="band-media"
             imageClassName="band-image"
-            src="/media/palco-mao-erguida.jpg"
+            src="/media/palco-mao-erguida.webp"
             alt="Anderson Junior no palco com músico e público ao fundo"
           />
           <div className="band-shade" />
@@ -155,11 +160,11 @@ export default function Home() {
             <p>
               A formação de maior escala para prefeituras, exposições e grandes eventos. Disponibilidade, estrutura e formato são tratados diretamente no contato.
             </p>
-            <a href={whatsappUrl} target="_blank" rel="noreferrer">
+            <ContactLink origin="banda-completa">
               <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
               Consultar formato
               <span aria-hidden="true">↗</span>
-            </a>
+            </ContactLink>
           </Reveal>
         </section>
 
@@ -171,31 +176,27 @@ export default function Home() {
           <Reveal className="contact-main" variant="mask">
             <p className="contact-kicker">Consulte disponibilidade e informações para shows.</p>
             <h2 id="contact-title">Quer levar esse show para o seu evento?</h2>
-            <a className="contact-action" href={whatsappUrl} target="_blank" rel="noreferrer">
+            <ContactLink className="contact-action" origin="secao-contato">
               <span className="contact-action-label">
                 <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
                 Contato para shows
               </span>
               <span aria-hidden="true">↗</span>
-            </a>
-            <a
-              className="press-kit-link"
-              href="/downloads/press-kit-anderson-junior.pdf?v=20260815-signature"
-              download
-            >
+            </ContactLink>
+            <PressKitLink className="press-kit-link" origin="secao-contato">
               <FontAwesomeIcon icon={faFileArrowDown} aria-hidden="true" />
               Baixar press kit
               <span>PDF · 4 páginas</span>
-            </a>
+            </PressKitLink>
           </Reveal>
           <footer className="site-footer">
             <p>© 2026 Anderson Junior</p>
             <nav aria-label="Redes sociais">
-              <a href="https://www.instagram.com/andersonjrcantor/" target="_blank" rel="noreferrer">
+              <a href={siteConfig.instagram} target="_blank" rel="noreferrer">
                 <FontAwesomeIcon icon={faInstagram} aria-hidden="true" />
                 Instagram
               </a>
-              <a href="https://www.tiktok.com/@andersonjrcantor" target="_blank" rel="noreferrer">
+              <a href={siteConfig.tiktok} target="_blank" rel="noreferrer">
                 <FontAwesomeIcon icon={faTiktok} aria-hidden="true" />
                 TikTok
               </a>
