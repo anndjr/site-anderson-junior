@@ -38,4 +38,5 @@ Público estimado:`;
 
 export const whatsappUrl = `https://wa.me/5535984094626?text=${encodeURIComponent(whatsappMessage)}`;
 
-export const pressKitUrl = "/downloads/press-kit-anderson-junior.pdf?v=20260815-signature";
+// A versão força o navegador a buscar o arquivo novo em vez do que já cacheou.
+export const pressKitUrl = "/downloads/press-kit-anderson-junior.pdf?v=20260819-venda";

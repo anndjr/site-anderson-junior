@@ -49,9 +49,17 @@ Os ícones nascem da letra "A" da logo oficial, recortada pelo canal alfa, de mo
 
 ## Press kit
 
-O PDF de quatro páginas é gerado por `scripts/create_press_kit.py`, que precisa de Python com `reportlab` e usa fontes do Windows. A saída vai para `output/pdf/`, e o arquivo publicado é `public/downloads/press-kit-anderson-junior.pdf`.
+O press kit é uma peça de venda: apresenta o artista e o show a quem contrata. Não é rider técnico, que é documento separado da negociação.
 
-Os selos de contato são criados por `scripts/create_press_kit_icons.mjs` (Node), a partir dos ícones do Font Awesome.
+```bash
+pnpm presskit   # grava public/downloads/press-kit-anderson-junior.pdf
+```
+
+São cinco páginas, diagramadas em pontos (A4), rasterizadas a 200 dpi e embrulhadas por `scripts/pdf.mjs`, um escritor de PDF mínimo que mantém os contatos clicáveis. Todo o texto vem do conteúdo já aprovado para o site.
+
+Ao trocar o PDF, atualize a versão em `pressKitUrl` (`lib/site.ts`) para que os navegadores busquem o arquivo novo.
+
+Os selos de contato são criados por `scripts/create_press_kit_icons.mjs`, a partir dos ícones do Font Awesome.
 
 ## Dependências
 
