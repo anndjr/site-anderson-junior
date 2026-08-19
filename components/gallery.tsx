@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Reveal } from "@/components/reveal";
 import { siteConfig } from "@/lib/site";
 
@@ -18,6 +20,32 @@ const gallery = [
 
 export function Gallery() {
   const [expanded, setExpanded] = useState(false);
+  const [aberta, setAberta] = useState<number | null>(null);
+
+  const fechar = useCallback(() => setAberta(null), []);
+  const mover = useCallback(
+    (passo: number) => setAberta((atual) => (atual === null ? null : (atual + passo + gallery.length) % gallery.length)),
+    [],
+  );
+
+  useEffect(() => {
+    if (aberta === null) return;
+
+    const aoTeclar = (evento: KeyboardEvent) => {
+      if (evento.key === "Escape") fechar();
+      if (evento.key === "ArrowRight") mover(1);
+      if (evento.key === "ArrowLeft") mover(-1);
+    };
+
+    const overflowAnterior = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    document.addEventListener("keydown", aoTeclar);
+
+    return () => {
+      document.removeEventListener("keydown", aoTeclar);
+      document.documentElement.style.overflow = overflowAnterior;
+    };
+  }, [aberta, fechar, mover]);
 
   return (
     <section id="fotos" className="gallery" aria-labelledby="gallery-title">
@@ -37,9 +65,14 @@ export function Gallery() {
             delay={(index % 2) * 0.08}
             key={image.src}
           >
-            <div className="gallery-image">
+            <button
+              className="gallery-image"
+              type="button"
+              onClick={() => setAberta(index)}
+              aria-label={`Ampliar fotografia: ${image.alt}`}
+            >
               <Image src={image.src} alt={image.alt} fill sizes="(max-width: 700px) 92vw, 44vw" />
-            </div>
+            </button>
           </Reveal>
         ))}
       </div>
@@ -53,6 +86,53 @@ export function Gallery() {
         <span>{expanded ? "Mostrar seleção principal" : "Ver mais fotos"}</span>
         <span aria-hidden="true">{expanded ? "−" : "+"}</span>
       </button>
+
+      {aberta !== null && (
+        <div
+          className="lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Fotografia ampliada"
+          onClick={fechar}
+        >
+          {/* O clique no fundo fecha; dentro da figura ele não deve propagar. */}
+          <figure className="lightbox-figure" onClick={(evento) => evento.stopPropagation()}>
+            <Image src={gallery[aberta].src} alt={gallery[aberta].alt} fill sizes="100vw" priority />
+            <figcaption>
+              <span>{gallery[aberta].alt}</span>
+              <span className="lightbox-count">
+                {String(aberta + 1).padStart(2, "0")} / {String(gallery.length).padStart(2, "0")}
+              </span>
+            </figcaption>
+          </figure>
+
+          <button className="lightbox-close" type="button" onClick={fechar} aria-label="Fechar" autoFocus>
+            <FontAwesomeIcon icon={faXmark} aria-hidden="true" />
+          </button>
+          <button
+            className="lightbox-nav lightbox-prev"
+            type="button"
+            aria-label="Fotografia anterior"
+            onClick={(evento) => {
+              evento.stopPropagation();
+              mover(-1);
+            }}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} aria-hidden="true" />
+          </button>
+          <button
+            className="lightbox-nav lightbox-next"
+            type="button"
+            aria-label="Próxima fotografia"
+            onClick={(evento) => {
+              evento.stopPropagation();
+              mover(1);
+            }}
+          >
+            <FontAwesomeIcon icon={faChevronRight} aria-hidden="true" />
+          </button>
+        </div>
+      )}
     </section>
   );
 }
