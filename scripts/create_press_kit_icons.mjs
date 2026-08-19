@@ -25,6 +25,12 @@ for (const [name, definition] of Object.entries(icons)) {
   const [width, height, , , pathData] = definition.icon;
   for (const [suffix, fill] of [["", "#11100F"], ["-white", "#FFF8ED"]]) {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"><path fill="${fill}" d="${pathData}"/></svg>`;
-    await sharp(Buffer.from(svg)).resize(256, 256, { fit: "contain" }).png().toFile(path.join(outputDir, `${name}${suffix}.png`));
+    // Os ícones do Font Awesome não são quadrados. Sem declarar o fundo, o
+    // `contain` completa o quadrado com o padrão do sharp, que é preto opaco, e
+    // as barras aparecem como riscos escuros dentro dos selos do press kit.
+    await sharp(Buffer.from(svg))
+      .resize(256, 256, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+      .png()
+      .toFile(path.join(outputDir, `${name}${suffix}.png`));
   }
 }
