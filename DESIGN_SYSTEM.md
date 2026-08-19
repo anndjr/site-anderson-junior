@@ -71,7 +71,7 @@ Os valores abaixo são ponto de partida para prototipação e precisam de teste 
 | Fundo editorial | Papel | `#E8DFD0` | Passagem de memória e leitura curta |
 | Texto sobre claro | Tinta | `#171512` | Texto em áreas editoriais |
 | Acento editorial | Cobre | `#BD7045` | Marcadores, índices e detalhes de transição |
-| Acento da marca | Brasa | `#E66F22` | Sublinhados ativos e momentos mínimos ligados à logo oficial |
+| Acento da marca | Brasa | `#F27507` | Sublinhados ativos e momentos mínimos ligados à logo oficial; valor amostrado do arquivo da logo |
 | Estado informativo | Azul noite | `#526A85` | Feedback neutro quando necessário |
 
 ### Regras de cor
