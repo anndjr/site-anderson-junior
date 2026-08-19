@@ -111,13 +111,17 @@ async function recorte(arquivo, larguraPt, alturaPt, focoX = 0.5, focoY = 0.5) {
 
 const emPx = (pt) => Math.round(pt * ESCALA);
 
-/** Monta a página: fundo, fotos e, por cima, a camada de texto em SVG. */
-async function pagina({ fundo, camadas = [], svg }) {
+/**
+ * Monta a página: fundo, fotos, a camada de texto em SVG e, por último, o que
+ * precisa ficar acima dela. Elementos com brilho próprio, como a logo branca,
+ * vão em `acima`: sob os véus da diagramação eles perdem o contraste.
+ */
+async function pagina({ fundo, camadas = [], svg, acima = [] }) {
   const overlay = Buffer.from(
     `<svg xmlns="http://www.w3.org/2000/svg" width="${PX.w}" height="${PX.h}" viewBox="0 0 ${A4.width} ${A4.height}">${svg}</svg>`,
   );
   const jpeg = await sharp({ create: { width: PX.w, height: PX.h, channels: 3, background: fundo } })
-    .composite([...camadas, { input: overlay, top: 0, left: 0 }])
+    .composite([...camadas, { input: overlay, top: 0, left: 0 }, ...acima])
     .jpeg({ quality: 88, chromaSubsampling: "4:4:4" })
     .toBuffer();
   return { jpeg, width: PX.w, height: PX.h };
@@ -154,11 +158,9 @@ async function capa() {
 
   return pagina({
     fundo: COR.cafe,
-    camadas: [
-      { input: foto, top: 0, left: 0 },
-      { input: logo, top: emPx(A4.height - 260), left: emPx(MARGEM) },
-    ],
+    camadas: [{ input: foto, top: 0, left: 0 }],
     svg,
+    acima: [{ input: logo, top: emPx(A4.height - 260), left: emPx(MARGEM) }],
   });
 }
 
