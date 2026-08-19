@@ -130,10 +130,19 @@ export default function Home() {
         </section>
 
         <section id="trajetoria" className="trajectory" aria-labelledby="trajectory-title">
-          <div>
+          <div className="trajectory-heading">
             <p className="section-index">04 / Trajetória</p>
             <h2 id="trajectory-title">Dos palcos da região para novos encontros.</h2>
           </div>
+          <Reveal className="trajectory-image" variant="image">
+            <Image
+              src="/media/palco-luzes.webp"
+              alt="Anderson Junior sorrindo no palco entre luzes verdes, durante apresentação"
+              fill
+              sizes="(max-width: 900px) 100vw, 46vw"
+            />
+            <span className="trajectory-image-label">Ao vivo na região</span>
+          </Reveal>
           <Reveal className="trajectory-copy" variant="rise">
             <p>
               Anderson Junior já se apresentou em exposições, casas noturnas e eventos em cidades como Passos, São João Batista do Glória e Alpinópolis.

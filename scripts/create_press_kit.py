@@ -177,10 +177,6 @@ def draw_cover(c):
         preserveAspectRatio=True,
         mask="auto",
     )
-    c.setStrokeColor(ORANGE)
-    c.setLineWidth(3)
-    c.line(44, PAGE_H * 0.39, 116, PAGE_H * 0.39)
-
     c.setFillColor(IVORY)
     signature = c.beginText(44, 108)
     signature.setFont("SerifBold", 15.5)

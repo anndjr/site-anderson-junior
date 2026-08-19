@@ -13,7 +13,7 @@ const gallery = [
   { src: "/media/palco-preto-branco.webp", alt: "Anderson Junior de chapéu cantando e tocando violão em preto e branco" },
   { src: "/media/retrato-contato.webp", alt: "Anderson Junior vestido de branco cantando ao microfone" },
   { src: "/media/palco-vermelho.webp", alt: "Anderson Junior cantando sob luzes vermelhas e verdes" },
-  { src: "/media/palco-luzes.webp", alt: "Anderson Junior sorrindo entre as luzes do palco" },
+  { src: "/media/palco-voz.webp", alt: "Anderson Junior cantando ao microfone sob luzes de palco" },
 ];
 
 export function Gallery() {
